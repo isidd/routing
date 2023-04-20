@@ -1,0 +1,70 @@
+.checkList {
+  display: flex;
+  margin: auto;
+  justify-content: center;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+label,
+input {
+  display: block;
+  width: 20%;
+}
+
+label {
+  font-weight: bold;
+}
+
+input {
+  font: inherit;
+  border: 1px solid #ccc;
+  padding: 0.25rem;
+}
+
+input:focus {
+  outline: none;
+  border-color: #50005a;
+}
+
+button {
+  color: white;
+  padding: 0.5rem 1.5rem;
+  cursor: pointer;
+}
+
+button:focus {
+  outline: none;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.addButton {
+  background: #1a6fde;
+  border: 1px solid #1a6fde;
+}
+
+.minusButton {
+  background: hsl(32, 82%, 53%);
+  border: 1px solid hsl(32, 82%, 53%);
+}
+
+.plusButton {
+  background: hsl(103, 84%, 58%);
+  border: 1px solid hsl(103, 84%, 58%);
+}
+
+.removeButton {
+  background: hsl(16, 74%, 46%);
+  border: 1px solid hsl(16, 74%, 46%);
+}
+
+.alert {
+  color: red;
+}
