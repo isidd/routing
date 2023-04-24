@@ -9,14 +9,27 @@ const App: React.FC = (): React.ReactElement => {
   const [activeId, setActiveId] = useState<string>();
 
   const addItemHandler = ({ item, quantity }: AddItemArgumentProps) => {
+    // eslint-disable-next-line array-callback-return
+    let existingItem = items.find((prevItems: ItemProps) => {
+      if (prevItems.item === item) {
+        prevItems.quantity = prevItems.quantity + quantity;
+        return prevItems;
+      }
+    });
+
+    const newItem = existingItem
+      ? existingItem
+      : {
+          id: Math.random().toString(),
+          item,
+          quantity,
+        };
+
     let newItemList: Array<ItemProps> = [
-      ...items,
-      {
-        id: Math.random().toString(),
-        item,
-        quantity,
-      },
+      ...items.filter((prevItem) => prevItem.item !== item),
+      newItem,
     ];
+
     setItems(newItemList);
   };
 
@@ -57,6 +70,7 @@ const App: React.FC = (): React.ReactElement => {
     if (selectedItem?.quantity <= 0) {
       deleteItemHandler(selectedItem.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [items]);
 
   return (

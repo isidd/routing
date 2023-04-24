@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { Typography, TextField, Button } from "@mui/material";
 
 import "./addItem.css";
 import { AddItemArgumentProps } from "../utility/types/itemTypes";
@@ -36,22 +37,42 @@ const AddItem: React.FC<AddItemProps> = (props) => {
   return (
     <section>
       <section className="checkList">
-        <h1>Checklist</h1>
+        <Typography variant="h5" sx={{ mt: 5 }}>
+          Checklist
+        </Typography>
       </section>
       <form onSubmit={addItemSubmitHandler}>
         <div className="form-control">
-          <label htmlFor="item-text">Item</label>
-          <input type="text" id="item-text" ref={ItemInputRef} />
-          <label className="mt-10" htmlFor="item-quantity">
+          <TextField
+            variant="standard"
+            helperText="please put your items here"
+            label="Item"
+            sx={{ width: "20%" }}
+            inputRef={ItemInputRef}
+          />
+          <TextField
+            variant="standard"
+            helperText="please put your quantity here"
+            label="Quantity"
+            sx={{ width: "20%" }}
+            inputRef={QuantityInputRef}
+          />
+          {/* <input type="text" id="item-text" ref={ItemInputRef} /> */}
+          {/* <label className="mt-10" htmlFor="item-quantity">
             Quantity
           </label>
-          <input type="number" id="item-quantity" ref={QuantityInputRef} />
+          <input type="number" id="item-quantity" ref={QuantityInputRef} /> */}
           {invalidQuantityAlert && (
             <span className="alert mt-10">Please enter a valid quantity</span>
           )}
-          <button className={"mt-10 addButton"} type="submit">
+          <Button
+            variant="contained"
+            sx={{ mt: 3, width: "10%" }}
+            className={"mt-10 addButton"}
+            type="submit"
+          >
             Add Item
-          </button>
+          </Button>
         </div>
       </form>
     </section>
