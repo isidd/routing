@@ -37,6 +37,7 @@ const ItemList: React.FC<ItemListProps> = (props): React.ReactElement => {
       return setList(searchedItem);
     }
     setList(props.items);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search]);
 
   return (
