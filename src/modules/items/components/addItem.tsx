@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Typography, TextField, Button } from "@mui/material";
 
 import "./addItem.css";
-import { AddItemArgumentProps } from "../utility/types/itemTypes";
+import { AddItemArgumentProps } from "../../../utility/types/itemTypes";
 
 interface AddItemProps {
   addItem: ({ item, quantity }: AddItemArgumentProps) => void;

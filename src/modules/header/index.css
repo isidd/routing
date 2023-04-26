@@ -1,0 +1,17 @@
+.nav {
+  display: flex;
+  justify-content: end;
+  padding: 17px;
+}
+
+.nav-item {
+  padding: 13px;
+  text-decoration: none;
+  color: #979797;
+}
+
+.nav-item-active {
+  padding: 13px;
+  text-decoration: none;
+  color: orange;
+}

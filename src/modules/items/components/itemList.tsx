@@ -6,7 +6,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 import "./itemList.css";
-import { ItemProps } from "../utility/types/itemTypes";
+import { ItemProps } from "../../../utility/types/itemTypes";
 
 const StoreText = styled(Typography)(
   () => css`
@@ -18,6 +18,7 @@ interface ItemListProps {
   onDeleteItem: (id: string) => void;
   onAddQuantity: (id: string) => void;
   onSubtractQuantity: (id: string) => void;
+  redirect: (id: string) => void;
 }
 
 const ItemList: React.FC<ItemListProps> = (props): React.ReactElement => {
@@ -89,6 +90,13 @@ const ItemList: React.FC<ItemListProps> = (props): React.ReactElement => {
               variant="contained"
             >
               Remove
+            </Button>
+            <Button
+              className="removeButton"
+              onClick={props.redirect.bind(null, item.id)}
+              variant="contained"
+            >
+              Details
             </Button>
           </li>
         ))}
