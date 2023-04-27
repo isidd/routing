@@ -7,19 +7,26 @@ import {
   ItemProps,
 } from "../.././utility/types/itemTypes";
 
-import { useHistory } from "react-router-dom";
+import { useNavigate, useLoaderData } from "react-router-dom";
 
 const Items: React.FC = (): React.ReactElement => {
-  const [items, setItems] = useState<Array<ItemProps>>([]);
+  const storedData: any = useLoaderData();
+  const [items, setItems] = useState<Array<ItemProps>>(storedData);
   const [activeId, setActiveId] = useState<string>();
 
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  const addItemHandler = ({ item, quantity }: AddItemArgumentProps) => {
+  const addItemHandler = async ({
+    item,
+    quantity,
+    description,
+  }: AddItemArgumentProps) => {
     // eslint-disable-next-line array-callback-return
     let existingItem = items.find((prevItems: ItemProps) => {
       if (prevItems.item === item) {
         prevItems.quantity = prevItems.quantity + quantity;
+        prevItems.description = description;
+
         return prevItems;
       }
     });
@@ -30,6 +37,7 @@ const Items: React.FC = (): React.ReactElement => {
           id: Math.random().toString(),
           item,
           quantity,
+          description,
         };
 
     let newItemList: Array<ItemProps> = [
@@ -37,7 +45,16 @@ const Items: React.FC = (): React.ReactElement => {
       newItem,
     ];
 
-    setItems(newItemList);
+    try {
+      let res = await fetch("http://localhost:5000/saveItem", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ item: newItem }),
+      });
+      if (res.ok) setItems(newItemList);
+    } catch (err) {}
   };
 
   const deleteItemHandler = (itemId: string) => {
@@ -81,7 +98,7 @@ const Items: React.FC = (): React.ReactElement => {
   }, [items]);
 
   const redirectHandler = (id: string) => {
-    history.push(`/item/${id}`);
+    navigate(`/item/${id}`);
   };
 
   return (
@@ -101,3 +118,8 @@ const Items: React.FC = (): React.ReactElement => {
 };
 
 export default Items;
+
+export const getItems = async () => {
+  let response = await fetch("http://localhost:5000/getItems");
+  if (response.ok) return response.json();
+};

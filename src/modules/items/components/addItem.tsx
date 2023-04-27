@@ -3,14 +3,16 @@ import { Typography, TextField, Button } from "@mui/material";
 
 import "./addItem.css";
 import { AddItemArgumentProps } from "../../../utility/types/itemTypes";
+import { Form } from "react-router-dom";
 
 interface AddItemProps {
-  addItem: ({ item, quantity }: AddItemArgumentProps) => void;
+  addItem: ({ item, quantity, description }: AddItemArgumentProps) => void;
 }
 
 const AddItem: React.FC<AddItemProps> = (props) => {
   const ItemInputRef = useRef<HTMLInputElement>(null);
   const QuantityInputRef = useRef<HTMLInputElement>(null);
+  const DescriptionInputRef = useRef<HTMLInputElement>(null);
 
   const [invalidQuantityAlert, setInvalidQuantityAlert] =
     useState<boolean>(false);
@@ -19,11 +21,13 @@ const AddItem: React.FC<AddItemProps> = (props) => {
     event.preventDefault();
     const item: string = ItemInputRef.current!.value!;
     const quantity: number = +QuantityInputRef.current!.value!;
+    const description: string = DescriptionInputRef.current!.value!;
+
     if (quantity <= 0) {
       return setInvalidQuantityAlert(true);
     }
     setInvalidQuantityAlert(false);
-    props.addItem({ item, quantity });
+    props.addItem({ item, quantity, description });
   };
 
   useEffect(() => {
@@ -41,9 +45,10 @@ const AddItem: React.FC<AddItemProps> = (props) => {
           Checklist
         </Typography>
       </section>
-      <form onSubmit={addItemSubmitHandler}>
+      <Form>
         <div className="form-control">
           <TextField
+            name=""
             variant="standard"
             helperText="please put your items here"
             label="Item"
@@ -56,6 +61,15 @@ const AddItem: React.FC<AddItemProps> = (props) => {
             label="Quantity"
             sx={{ width: "20%" }}
             inputRef={QuantityInputRef}
+          />
+          <TextField
+            variant="standard"
+            helperText="please put your description here"
+            label="Description"
+            sx={{ width: "20%" }}
+            inputRef={DescriptionInputRef}
+            maxRows={2}
+            multiline
           />
           {/* <input type="text" id="item-text" ref={ItemInputRef} /> */}
           {/* <label className="mt-10" htmlFor="item-quantity">
@@ -74,7 +88,7 @@ const AddItem: React.FC<AddItemProps> = (props) => {
             Add Item
           </Button>
         </div>
-      </form>
+      </Form>
     </section>
   );
 };
