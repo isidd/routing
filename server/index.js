@@ -8,7 +8,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cors());
 
-var users = [{ email: "siddhartha@nagarro.com", password: "12345" }];
+var users = [
+  { email: "siddhartha@nagarro.com", password: "12345", name: "Siddhartha" },
+];
 var store = [];
 var token = [];
 
@@ -64,25 +66,30 @@ app.post("/login", (req, res) => {
   const id = crypto.randomBytes(16).toString("hex");
   token.push(id);
   setTimeout(
-    () => res.send({ status: 200, user: { email: user[0].email, token: id } }),
+    () =>
+      res.send({
+        status: 200,
+        user: { email: user[0].email, name: user[0].name, token: id },
+      }),
     2000
   );
 });
 
 app.post("/signup", (req, res) => {
-  let { email, password } = req.body;
+  let { email, password, name } = req.body;
   let checkUser = users.filter((user) => user.email === email);
   if (checkUser.length)
     return res.send({
       status: 404,
       message: "User already exist with this credential",
     });
-  let user = { email, password };
+  let user = { email, password, name };
   const id = crypto.randomBytes(16).toString("hex");
   token.push(id);
   users.push(user);
   setTimeout(
-    () => res.send({ status: 200, user: { user: email, token: id } }),
+    () =>
+      res.send({ status: 200, user: { user: email, name: name, token: id } }),
     2000
   );
 });

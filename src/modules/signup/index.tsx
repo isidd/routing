@@ -27,6 +27,15 @@ const SignUp = () => {
               variant="standard"
             />
             <TextField
+              label="Name"
+              margin="normal"
+              fullWidth
+              id="name"
+              name="name"
+              helperText="Please enter your name"
+              variant="standard"
+            />
+            <TextField
               label="Password"
               margin="normal"
               fullWidth
@@ -69,6 +78,7 @@ export const signUpAction = async ({ request }: any) => {
   let user = {
     email: data.get("email"),
     password: data.get("password"),
+    name: data.get("name"),
   };
 
   let res = await fetch("http://localhost:5000/signup", {
