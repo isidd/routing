@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { saveToken } from "../../utility/auth/auth";
+import { store } from "../../store";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -23,6 +24,7 @@ const Login = () => {
     form.append("email", email);
     form.append("password", password);
     submit(form, { method: "post" });
+    // => api
   };
 
   return (
@@ -102,5 +104,9 @@ export const submitLoginAction = async ({ request }: any) => {
     return response;
   }
   saveToken(response.user.token);
+  store.dispatch({
+    type: "USER_DETAILS",
+    payload: response.user,
+  });
   return redirect("/item");
 };

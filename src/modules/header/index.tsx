@@ -1,16 +1,22 @@
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import { NavLink, useLocation } from "react-router-dom";
 import "./index.css";
 import { isAuth, unAuthUser } from "../../utility/auth/auth";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const location = useLocation();
   const isLogin = location.pathname === "/login";
 
+  let { name } = useSelector((state: any) => state.userDetails);
+
   return (
     <Grid container>
-      <Grid xs={12} className="nav" item>
+      <Grid xs={2} item>
+        {name && <Typography className="user">Welcome..! {name}</Typography>}
+      </Grid>
+      <Grid xs={10} className="nav" item>
         <NavLink
           to={"/home"}
           className={({ isActive }) =>
