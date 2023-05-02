@@ -2,10 +2,13 @@ import React from "react";
 import UserLayout from "../../modules/layout/userLayout";
 import ErrorScreen from "../../modules/Error";
 import Home from "../../modules/home";
-import Login from "../../modules/login";
-import Items, { getItems } from "../../modules/items";
+import Login, { submitLoginAction } from "../../modules/login";
+import Items, { loadItems, submitItemAction } from "../../modules/items";
 import AdminLayout from "../../modules/layout/adminLayout";
 import ItemDetails, { getItemsDetails } from "../../modules/itemDetails";
+import SignUp, { signUpAction } from "../../modules/signup";
+import { getToken } from "../../utility/auth/auth";
+import { json, redirect } from "react-router-dom";
 
 export const Routes = [
   {
@@ -20,11 +23,22 @@ export const Routes = [
       {
         path: "login",
         element: <Login />,
+        loader: () => {
+          if (getToken()) return redirect("/item");
+          return json({ status: 200 });
+        },
+        action: submitLoginAction,
+      },
+      {
+        path: "signup",
+        element: <SignUp />,
+        action: signUpAction,
       },
       {
         path: "/item",
         element: <Items />,
-        loader: getItems,
+        loader: loadItems,
+        action: submitItemAction,
       },
       {
         path: "/item/:id",

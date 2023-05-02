@@ -10,6 +10,10 @@
   color: #979797;
 }
 
+.nav-item:hover {
+  color: orange;
+}
+
 .nav-item-active {
   padding: 13px;
   text-decoration: none;

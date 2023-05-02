@@ -3,7 +3,7 @@ import { Typography, TextField, Button } from "@mui/material";
 
 import "./addItem.css";
 import { AddItemArgumentProps } from "../../../utility/types/itemTypes";
-import { Form } from "react-router-dom";
+import { Form, useNavigation } from "react-router-dom";
 
 interface AddItemProps {
   addItem: ({ item, quantity, description }: AddItemArgumentProps) => void;
@@ -13,6 +13,7 @@ const AddItem: React.FC<AddItemProps> = (props) => {
   const ItemInputRef = useRef<HTMLInputElement>(null);
   const QuantityInputRef = useRef<HTMLInputElement>(null);
   const DescriptionInputRef = useRef<HTMLInputElement>(null);
+  const navigation: any = useNavigation();
 
   const [invalidQuantityAlert, setInvalidQuantityAlert] =
     useState<boolean>(false);
@@ -45,10 +46,10 @@ const AddItem: React.FC<AddItemProps> = (props) => {
           Checklist
         </Typography>
       </section>
-      <Form>
+      <Form method="post">
         <div className="form-control">
           <TextField
-            name=""
+            name="item"
             variant="standard"
             helperText="please put your items here"
             label="Item"
@@ -57,6 +58,7 @@ const AddItem: React.FC<AddItemProps> = (props) => {
           />
           <TextField
             variant="standard"
+            name="quantity"
             helperText="please put your quantity here"
             label="Quantity"
             sx={{ width: "20%" }}
@@ -64,6 +66,7 @@ const AddItem: React.FC<AddItemProps> = (props) => {
           />
           <TextField
             variant="standard"
+            name="description"
             helperText="please put your description here"
             label="Description"
             sx={{ width: "20%" }}
@@ -84,8 +87,9 @@ const AddItem: React.FC<AddItemProps> = (props) => {
             sx={{ mt: 3, width: "10%" }}
             className={"mt-10 addButton"}
             type="submit"
+            disabled={navigation.state === "loading"}
           >
-            Add Item
+            {navigation.state === "loading" ? "Adding..." : "Add Item"}
           </Button>
         </div>
       </Form>

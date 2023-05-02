@@ -1,38 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
-import {
-  Form,
-  redirect,
-  useActionData,
-  useNavigation,
-  useSubmit,
-} from "react-router-dom";
+import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "./signup.css";
 import { saveToken } from "../../utility/auth/auth";
 
-const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const SignUp = () => {
+  const data: any = useActionData();
   const navigation = useNavigation();
-  let data: any = useActionData();
-  let submit = useSubmit();
-
-  const HandleSubmit = (e: any) => {
-    e.preventDefault();
-    let form = new FormData();
-    form.append("email", email);
-    form.append("password", password);
-    submit(form, { method: "post" });
-  };
 
   return (
     <Container component="main" maxWidth="xs">
-      <Box>
+      <Box className="outer">
         <Typography component="h1" variant="h5" sx={{ mt: 5 }}>
-          Login
+          Sign In
         </Typography>
         <Box sx={{ mt: 1 }}>
-          <Form onSubmit={HandleSubmit}>
+          <Form method="POST">
             <TextField
               label="Email"
               margin="normal"
@@ -41,7 +25,6 @@ const Login = () => {
               name="email"
               helperText="Please enter your email Id"
               variant="standard"
-              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               label="Password"
@@ -52,16 +35,14 @@ const Login = () => {
               type="password"
               helperText="Please enter your password"
               variant="standard"
-              onChange={(e) => setPassword(e.target.value)}
             />
             <Typography textAlign="right" variant="subtitle2">
-              New User ? <Link to="/signup">Signin</Link>
+              User already ? <Link to="/login">Login</Link>
             </Typography>
             <Typography variant="subtitle2" color="error">
               {data?.message}
             </Typography>
             <Button
-              variant="contained"
               sx={{
                 width: "50%",
                 display: "flex",
@@ -69,10 +50,11 @@ const Login = () => {
                 justifyContent: "center",
                 marginTop: 6,
               }}
+              variant="contained"
               type="submit"
-              disabled={navigation.state === "submitting"}
+              disabled={navigation.state === "loading"}
             >
-              {navigation.state === "submitting" ? "Logging In..." : "Login"}
+              {navigation.state === "loading" ? "Signin In..." : "Signin"}
             </Button>
           </Form>
         </Box>
@@ -80,16 +62,16 @@ const Login = () => {
     </Container>
   );
 };
-export default Login;
+export default SignUp;
 
-export const submitLoginAction = async ({ request }: any) => {
+export const signUpAction = async ({ request }: any) => {
   const data = await request.formData();
   let user = {
     email: data.get("email"),
     password: data.get("password"),
   };
 
-  let res = await fetch("http://localhost:5000/login", {
+  let res = await fetch("http://localhost:5000/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

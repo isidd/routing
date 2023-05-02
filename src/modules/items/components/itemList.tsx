@@ -30,7 +30,6 @@ const ItemList: React.FC<ItemListProps> = (props): React.ReactElement => {
   }, [props.items]);
 
   useEffect(() => {
-    console.log(search);
     if (search) {
       let searchedItem = props.items?.filter((item) =>
         item.item.includes(search)
@@ -44,7 +43,9 @@ const ItemList: React.FC<ItemListProps> = (props): React.ReactElement => {
   return (
     <section>
       <section className="checkList">
-        <StoreText variant="h5">Store</StoreText>
+        <StoreText variant="h5" sx={{ mt: 3 }}>
+          Store
+        </StoreText>
       </section>
       <section className="checkList">
         <TextField
