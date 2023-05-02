@@ -22,7 +22,7 @@ app.get("/getItems", (_, res) => {
 
 function authorization(req, res, next) {
   let { authorization } = req.headers;
-  isValidToken = token.some((token) => token === authorization);
+  const isValidToken = token.some((token) => token === authorization);
   if (authorization && isValidToken) {
     next();
   } else {
