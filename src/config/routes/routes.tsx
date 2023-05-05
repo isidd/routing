@@ -5,7 +5,7 @@ import Home from "../../modules/home";
 import Login, { submitLoginAction } from "../../modules/login";
 import Items, { loadItems, submitItemAction } from "../../modules/items";
 import AdminLayout from "../../modules/layout/adminLayout";
-import ItemDetails, { getItemsDetails } from "../../modules/itemDetails";
+import ItemDetails from "../../modules/itemDetails";
 import SignUp, { signUpAction } from "../../modules/signup";
 import { getToken } from "../../utility/auth/auth";
 import { json, redirect } from "react-router-dom";
@@ -43,7 +43,6 @@ export const Routes = [
       {
         path: "/item/:id",
         element: <ItemDetails />,
-        loader: getItemsDetails,
       },
     ],
   },
