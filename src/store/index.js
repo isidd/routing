@@ -1,25 +1,15 @@
-import { createStore } from "redux";
+// import { createStore, combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
+import { UserReducer } from "./userReducer";
+import { ItemReducer } from "./itemReducer";
 
-const initialStore = {
-  userDetails: {},
-  items: [],
-  loading: false,
-};
+export const store = configureStore({
+  reducer: { user: UserReducer.reducer, item: ItemReducer.reducer },
+});
 
-const reducer = (state = initialStore, action) => {
-  if (action.type === "USER_DETAILS") {
-    return {
-      ...state,
-      userDetails: action.payload,
-    };
-  }
-  if (action.type === "SOME_TYPE") {
-    return {
-      ...state,
-      loading: true,
-    };
-  }
-  return state;
-};
+export const userAction = UserReducer.actions;
+export const itemAction = ItemReducer.actions;
 
-export const store = createStore(reducer);
+// createStore(
+//   combineReducers({ user: UserReducer, items: ItemReducer })
+// );

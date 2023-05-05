@@ -13,6 +13,7 @@ var users = [
 ];
 var store = [];
 var token = [];
+var activeSessions = [];
 
 app.get("/", (_, res) => {
   res.send("Hello there");
@@ -31,6 +32,12 @@ function authorization(req, res, next) {
     return res.send({ status: 401, message: "unauthorized request " });
   }
 }
+
+app.post("/verify", authorization, (req, res) => {
+  let { authorization } = req.headers;
+  let user = activeSessions.find((user) => user.token === authorization);
+  res.send(user);
+});
 
 app.post("/saveItem", authorization, (req, res) => {
   const id = crypto.randomBytes(16).toString("hex");
@@ -65,6 +72,7 @@ app.post("/login", (req, res) => {
     return res.send({ status: 404, message: "No user with this credential" });
   const id = crypto.randomBytes(16).toString("hex");
   token.push(id);
+  activeSessions.push({ ...user[0], token: id });
   setTimeout(
     () =>
       res.send({
@@ -86,7 +94,7 @@ app.post("/signup", (req, res) => {
   let user = { email, password, name };
   const id = crypto.randomBytes(16).toString("hex");
   token.push(id);
-  users.push(user);
+  users.push({ ...user, token: id });
   setTimeout(
     () =>
       res.send({ status: 200, user: { user: email, name: name, token: id } }),

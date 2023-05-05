@@ -9,7 +9,7 @@ const Header = () => {
   const location = useLocation();
   const isLogin = location.pathname === "/login";
 
-  let { name } = useSelector((state: any) => state.userDetails);
+  let { name } = useSelector((state: any) => state.user.userDetails);
 
   return (
     <Grid container>

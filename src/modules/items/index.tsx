@@ -16,6 +16,7 @@ import {
   redirect,
 } from "react-router-dom";
 import { getToken, isUnauthorized, unAuthUser } from "../../utility/auth/auth";
+import { itemAction, store } from "../../store";
 
 const Items: React.FC = (): React.ReactElement => {
   const { storedItem }: any = useLoaderData();
@@ -159,7 +160,9 @@ export default Items;
 
 export const getItems = async () => {
   let response = await fetch("http://localhost:5000/getItems");
-  if (response.ok) return await response.json();
+  let res = await response.json();
+  store.dispatch(itemAction.setItemDetails(res));
+  if (response.ok) return res;
 };
 
 export const loadItems = () => {

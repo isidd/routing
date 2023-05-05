@@ -9,7 +9,7 @@ import {
 } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { saveToken } from "../../utility/auth/auth";
-import { store } from "../../store";
+import { store, userAction } from "../../store";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -104,9 +104,6 @@ export const submitLoginAction = async ({ request }: any) => {
     return response;
   }
   saveToken(response.user.token);
-  store.dispatch({
-    type: "USER_DETAILS",
-    payload: response.user,
-  });
+  store.dispatch(userAction.setUserDetails(response.user));
   return redirect("/item");
 };
